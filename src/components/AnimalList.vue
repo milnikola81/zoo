@@ -8,6 +8,12 @@
           <input v-model="newAnimal.name" type="text" placeholder="name"> <br>
           <label>Birth date</label>
           <input v-model="newAnimal.birth_date" type="text" placeholder="birth date"> <br>
+
+          <select v-model="newAnimal.sector">
+            <option disabled value="">Please select sector</option>
+            <option v-for="(sector, key) in sectors" :key='key' v-bind:value="sector">{{ sector.name }}</option>
+          </select>
+          <br>
           <button @click="addAnimal()" type="submit">Add animal</button>
       </form>
       <table>
@@ -15,6 +21,7 @@
               <th>Species</th>
               <th>Name</th>
               <th>Birth Date</th>
+              <th>Sector</th>
           </thead>
           <tbody>
               <tr v-for="(animal, key) in animals" :key="key">
@@ -22,6 +29,7 @@
                   <td>{{animal.name}}</td>
                   <td v-if="typeof animal.birth_date === 'undefined' || animal.birth_date === ''">unknown</td>
                   <td v-else>{{animal.birth_date}}</td>
+                  <td>{{animal.sector}}</td>
                   <td><button @click="removeAnimal(animal)" type="submit">Remove</button></td>
                   <td><button @click="moveToTop(animal)" type="submit">Move to top</button></td>
               </tr>
@@ -32,27 +40,36 @@
 </template>
 
 <script>
+const sectors = [
+    {name: "North"},
+    {name: "South"},
+    {name: "West"},
+    {name: "East"}
+];
 export default {
   name: 'AnimalList',
   data() {
       return {
+          sectors: sectors,
           animals: [
-              {species: "Elephant", name: "John", birth_date: "2012-05-05"},
-              {species: "Parrot", name: "Jack", birth_date: "2017-06-06"},
-              {species: "Lion", name: "Bob", birth_date: "2002-07-08"},
-              {species: "Tiger", name: "Bill"},
-              {species: "Bear", name: "Joe", birth_date: "2014-02-25"}
+              {species: "Elephant", name: "John", birth_date: "2012-05-05", sector: sectors[0].name},
+              {species: "Parrot", name: "Jack", birth_date: "2017-06-06", sector: sectors[1].name},
+              {species: "Lion", name: "Bob", birth_date: "2002-07-08", sector: sectors[2].name},
+              {species: "Tiger", name: "Bill", sector: sectors[3].name},
+              {species: "Bear", name: "Joe", birth_date: "2014-02-25", sector: sectors[1].name}
           ],
           newAnimal: {
               species: '',
               name: '',
-              birth_date: ''
-          }
+              birth_date: '',
+              sector: ''
+          },
       }
   },
   methods: {
       addAnimal() {
             this.animals.push(this.newAnimal);
+            console.log(this.newAnimal.sector.name)
         },
       removeAnimal(animal) {
             let index = this.animals.indexOf(animal);
