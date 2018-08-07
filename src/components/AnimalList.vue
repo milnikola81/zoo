@@ -14,6 +14,7 @@
                   <td v-if="typeof animal.birth_date === 'undefined' || animal.birth_date === ''">unknown</td>
                   <td v-else>{{animal.birth_date}}</td>
                   <td><button @click="removeAnimal(animal)" type="submit">Remove</button></td>
+                  <td><button @click="moveToTop(animal)" type="submit">Move to top</button></td>
               </tr>
           </tbody>
       </table>  
@@ -39,6 +40,12 @@ export default {
       removeAnimal(animal) {
             let index = this.animals.indexOf(animal);
             this.animals.splice(index, 1);
+      },
+      moveToTop(animal) {
+            let index = this.animals.indexOf(animal);
+            let animalToMove = animal;
+            this.animals.splice(index, 1);
+            this.animals.unshift(animalToMove);
       }
   },
   props: {
