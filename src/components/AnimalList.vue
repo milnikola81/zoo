@@ -29,9 +29,21 @@
                   <td>{{animal.name}}</td>
                   <td v-if="typeof animal.birth_date === 'undefined' || animal.birth_date === ''">unknown</td>
                   <td v-else>{{animal.birth_date}}</td>
-                  <td>{{animal.sector}}</td>
+                  <td>{{animal.sector.name}}</td>
                   <td><button @click="removeAnimal(animal)" type="submit">Remove</button></td>
                   <td><button @click="moveToTop(animal)" type="submit">Move to top</button></td>
+              </tr>
+          </tbody>
+      </table>
+
+      <table>
+          <thead>
+              <th>Sector</th>
+          </thead>
+          <tbody>
+              <tr v-for="(sector, key) in sectors" :key="key">
+                  <td>{{sector.name}}</td>
+                  <td><button @click="showAnimals(sector)" type="submit">Show animals</button></td>
               </tr>
           </tbody>
       </table>  
@@ -52,11 +64,11 @@ export default {
       return {
           sectors: sectors,
           animals: [
-              {species: "Elephant", name: "John", birth_date: "2012-05-05", sector: sectors[0].name},
-              {species: "Parrot", name: "Jack", birth_date: "2017-06-06", sector: sectors[1].name},
-              {species: "Lion", name: "Bob", birth_date: "2002-07-08", sector: sectors[2].name},
-              {species: "Tiger", name: "Bill", sector: sectors[3].name},
-              {species: "Bear", name: "Joe", birth_date: "2014-02-25", sector: sectors[1].name}
+              {species: "Elephant", name: "John", birth_date: "2012-05-05", sector: sectors[0]},
+              {species: "Parrot", name: "Jack", birth_date: "2017-06-06", sector: sectors[1]},
+              {species: "Lion", name: "Bob", birth_date: "2002-07-08", sector: sectors[2]},
+              {species: "Tiger", name: "Bill", sector: sectors[3]},
+              {species: "Bear", name: "Joe", birth_date: "2014-02-25", sector: sectors[1]}
           ],
           newAnimal: {
               species: '',
@@ -80,6 +92,15 @@ export default {
             let animalToMove = animal;
             this.animals.splice(index, 1);
             this.animals.unshift(animalToMove);
+      },
+      showAnimals(sector) {
+          let sectorAnimals = [];
+          for(var i=0; i<this.animals.length; i++) {
+              if (this.animals[i].sector === sector) {
+                  sectorAnimals.push(this.animals[i].species);
+              }
+          }
+          alert("In this sector we have: "+sectorAnimals);
       }
   },
   props: {
