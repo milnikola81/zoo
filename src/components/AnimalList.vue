@@ -13,6 +13,7 @@
                   <td>{{animal.name}}</td>
                   <td v-if="typeof animal.birth_date === 'undefined' || animal.birth_date === ''">unknown</td>
                   <td v-else>{{animal.birth_date}}</td>
+                  <td><button @click="removeAnimal(animal)" type="submit">Remove</button></td>
               </tr>
           </tbody>
       </table>  
@@ -32,6 +33,12 @@ export default {
               {species: "Tiger", name: "Bill"},
               {species: "Bear", name: "Joe", birth_date: "2014-02-25"}
           ],
+      }
+  },
+  methods: {
+      removeAnimal(animal) {
+            let index = this.animals.indexOf(animal);
+            this.animals.splice(index, 1);
       }
   },
   props: {
