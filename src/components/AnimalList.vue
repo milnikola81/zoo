@@ -85,7 +85,9 @@ export default {
   methods: {
       addAnimal() {
             this.animals.push(this.newAnimal);
-            console.log(this.newAnimal.sector.name)
+            this.newAnimal = {
+               background: false 
+            }
         },
       removeAnimal(animal) {
             let index = this.animals.indexOf(animal);
@@ -93,7 +95,7 @@ export default {
       },
       moveToTop(animal) {
             let index = this.animals.indexOf(animal);
-            this.animals.splice(index, 1);
+            remove(animal);
             this.animals.unshift(animal);
       },
       showAnimals(sector) {
